@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_flow/screens/home_page.dart';
+import 'package:task_flow/widgets/auth_form.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -18,11 +18,11 @@ class LoginPage extends StatelessWidget {
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(context).size.height,
           ),
-          child: Column(
+          child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Task",
@@ -40,19 +40,10 @@ class LoginPage extends StatelessWidget {
                             fontWeight: FontWeight.w900)),
                   ],
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 60,
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (bc) => const MyHomePage()));
-                  },
-                  child: const Text(
-                    "home page",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                )
+                AuthForm(),
               ]),
         ),
       ),
