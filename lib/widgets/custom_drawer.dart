@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_flow/screens/login_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   final String userName;
@@ -105,17 +107,18 @@ class CustomDrawer extends StatelessWidget {
                     context: context,
                     builder: (BuildContext bc) {
                       return AlertDialog(
-                        actionsAlignment: MainAxisAlignment.center,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         title: const Icon(
                           Icons.warning,
-                          size: 32,
+                          size: 36,
                           color: Colors.redAccent,
                         ),
                         content: const Wrap(
                           children: [
-                            Text("Deseja realmente sair do aplicativo?"),
+                            Center(
+                                child: Text(
+                                    "Deseja realmente sair do aplicativo?")),
                           ],
                         ),
                         actions: [
@@ -125,7 +128,21 @@ class CustomDrawer extends StatelessWidget {
                               },
                               child: const Text('Não')),
                           TextButton(
-                              onPressed: () async {}, child: const Text('Sim'))
+                              onPressed: () async {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setString('jwt_token', '');
+
+                                if (!context.mounted) return;
+
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginPage()),
+                                    (route) => false);
+                              },
+                              child: const Text('Sim'))
                         ],
                       );
                     });
