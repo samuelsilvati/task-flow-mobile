@@ -11,6 +11,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Task Flow',
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+            titleTextStyle: TextStyle(color: Colors.black),
+            iconTheme: IconThemeData(color: Colors.black)),
         brightness: Brightness.light,
         colorScheme: const ColorScheme.light(
             background: Colors.white,
@@ -19,7 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.amber,
         textTheme: GoogleFonts.outfitTextTheme(
             const TextTheme(bodyMedium: TextStyle(color: Colors.black))),
-        useMaterial3: true,
+        // useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Task Flow'),
     );
