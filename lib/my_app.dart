@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:task_flow/screens/home_page.dart';
+import 'package:task_flow/screens/login_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
             const TextTheme(bodyMedium: TextStyle(color: Colors.black))),
         // useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Task Flow'),
+      home: const LoginPage(),
     );
   }
 }
