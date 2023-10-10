@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_flow/screens/login_page.dart';
+import 'package:task_flow/screens/login_verify.dart';
 import 'package:task_flow/themes/dark_theme.dart';
 import 'package:task_flow/themes/light_theme.dart';
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Task Flow',
       theme: lightTheme,
       darkTheme: darkTheme,
-      home: const LoginPage(),
+      home: const LoginVerify(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_flow/widgets/custom_drawer.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -9,12 +10,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String userName = 'Usuário';
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+    loadUserName();
+  }
+
+  void loadUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? savedName = prefs.getString('name');
+
+    if (savedName != null) {
+      setState(() {
+        userName = savedName;
+      });
+    }
   }
 
   @override
@@ -25,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("Task Flow",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
       ),
-      drawer: const CustomDrawer(userName: 'Usuário'),
+      drawer: CustomDrawer(userName: userName),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -34,14 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              userName,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {},
         tooltip: 'Increment',
         child: const Icon(
           Icons.add,
