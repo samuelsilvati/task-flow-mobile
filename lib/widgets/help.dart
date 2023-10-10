@@ -10,7 +10,12 @@ class Help extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Icon(Icons.help_outlined)],
+            children: [
+              Icon(
+                Icons.help_outlined,
+                size: 28,
+              )
+            ],
           ),
           SizedBox(
             height: 20,
@@ -41,6 +46,9 @@ class Help extends StatelessWidget {
           ),
           Text(
               'Para editar uma tarefa existente, mantenha pressionado o card da tarefa que deseja modificar. Uma janela de edição será exibida, permitindo que você faça as alterações necessárias. Após concluir as edições, toque em "Salvar" para confirmar.'),
+          SizedBox(
+            height: 20,
+          ),
           Text(
             'Excluir uma Tarefa',
             style: TextStyle(fontSize: 18),
