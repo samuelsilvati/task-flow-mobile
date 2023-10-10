@@ -51,7 +51,14 @@ class _LoginVerifyState extends State<LoginVerify> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const Column(
+        children: [
+          SizedBox(
+            height: 30,
+          ),
+          LinearProgressIndicator(),
+        ],
+      );
     } else {
       return isLoggedIn ? const MyHomePage() : const LoginPage();
     }
