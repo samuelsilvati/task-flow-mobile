@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_flow/repositories/store.dart';
 import 'package:task_flow/screens/login_page.dart';
+import 'package:task_flow/widgets/privacity_policy.dart';
 
 class CustomDrawer extends StatelessWidget {
   final String userName;
@@ -68,22 +69,9 @@ class CustomDrawer extends StatelessWidget {
                     context: context,
                     builder: (BuildContext bc) {
                       return Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 18),
-                        child: const Column(
-                          children: [
-                            Text(
-                              'Termos de Uso e Privacidade',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                                "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."),
-                          ],
-                        ),
-                      );
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 18),
+                          child: const PrivacyPolicy());
                     });
               },
             ),
