@@ -189,23 +189,38 @@ class AuthFormState extends State<AuthForm> {
           const SizedBox(
             height: 30,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
-              const Text("Ainda não tem conta?",
-                  style: TextStyle(fontSize: 14, color: Colors.black)),
-              const SizedBox(
-                width: 2,
-              ),
               InkWell(
-                onTap: () {
-                  print('cadastre-se');
-                },
-                child: const Text("Cadastre-se",
+                onTap: () async {},
+                child: const Text("Esqueci minha senha",
                     style: TextStyle(
                         fontSize: 14,
                         color: Colors.black,
                         fontWeight: FontWeight.w900)),
+              ),
+              const SizedBox(
+                height: 14,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Ainda não tem conta?",
+                      style: TextStyle(fontSize: 14, color: Colors.black)),
+                  const SizedBox(
+                    width: 2,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      print('cadastre-se');
+                    },
+                    child: const Text("Cadastre-se",
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w900)),
+                  ),
+                ],
               ),
             ],
           ),
