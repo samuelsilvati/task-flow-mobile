@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_flow/repositories/store.dart';
 import 'package:task_flow/screens/login_page.dart';
+import 'package:task_flow/widgets/help.dart';
 import 'package:task_flow/widgets/privacity_policy.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -63,6 +64,7 @@ class CustomDrawer extends StatelessWidget {
                     ],
                   )),
               onTap: () {
+                Navigator.pop(context);
                 showModalBottomSheet(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
@@ -72,6 +74,35 @@ class CustomDrawer extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 20, horizontal: 18),
                           child: const PrivacyPolicy());
+                    });
+              },
+            ),
+            const Divider(),
+            InkWell(
+              child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                  width: double.infinity,
+                  child: const Row(
+                    children: [
+                      Icon(Icons.help_outline),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Ajuda"),
+                    ],
+                  )),
+              onTap: () {
+                Navigator.pop(context);
+                showModalBottomSheet(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    context: context,
+                    builder: (BuildContext bc) {
+                      return Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 18),
+                          child: const Help());
                     });
               },
             ),
