@@ -3,6 +3,7 @@ import 'package:task_flow/models/task_model.dart';
 import 'package:task_flow/repositories/store.dart';
 import 'package:task_flow/repositories/tasks/tasks_repository.dart';
 import 'package:task_flow/widgets/custom_drawer.dart';
+import 'package:task_flow/widgets/error_dialog.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -26,18 +27,28 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    loadData();
+    _loadData();
   }
 
-  void getTasks() async {
-    _tasks = await tasksRepository.getTasks(notCompleted);
+  Future<void> _getTasks() async {
+    try {
+      _tasks = await tasksRepository.getTasks(notCompleted);
+    } catch (e) {
+      if (!context.mounted) return;
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const ErrorDialog(content: "");
+          });
+      return;
+    }
     setState(() {
       loading = false;
       loadingEditing = false;
     });
   }
 
-  void loadData() async {
+  void _loadData() async {
     final bool setCompleted = await Store.getBool('notCompleted');
     final String savedName = await Store.getString('name');
 
@@ -45,7 +56,28 @@ class _MyHomePageState extends State<MyHomePage> {
       userName = savedName;
       notCompleted = setCompleted;
     });
-    getTasks();
+    _getTasks();
+  }
+
+  Future<void> _createTask(String task) async {
+    loadingEditing = true;
+    try {
+      await tasksRepository.create(TaskModel.create(task, false));
+      if (!context.mounted) return;
+      Navigator.pop(context);
+    } catch (e) {
+      if (!context.mounted) return;
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const ErrorDialog(content: "");
+          });
+      return;
+    }
+    setState(() {
+      loadingEditing = false;
+    });
+    _getTasks();
   }
 
   @override
@@ -60,35 +92,35 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.black)),
       ),
       drawer: CustomDrawer(userName: userName),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: Column(
-          children: [
-            Card(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Listar apenas não concluídas",
-                      style: TextStyle(fontSize: 18),
+      body: loading
+          ? const LinearProgressIndicator()
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Column(
+                children: [
+                  Card(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Listar apenas não concluídas",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Switch(
+                              value: notCompleted,
+                              onChanged: (bool value) async {
+                                notCompleted = value;
+                                await Store.saveBool('notCompleted', value);
+                                _getTasks();
+                              })
+                        ],
+                      ),
                     ),
-                    Switch(
-                        value: notCompleted,
-                        onChanged: (bool value) async {
-                          notCompleted = value;
-                          await Store.saveBool('notCompleted', value);
-                          getTasks();
-                        })
-                  ],
-                ),
-              ),
-            ),
-            loading
-                ? const Center(
-                    heightFactor: 2, child: CircularProgressIndicator())
-                : Expanded(
+                  ),
+                  Expanded(
                     child: ListView.builder(
                       itemCount: _tasks.length,
                       itemBuilder: (BuildContext bc, int index) {
@@ -98,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               (DismissDirection dismissDirection) async {
                             loadingEditing = true;
                             await tasksRepository.delete(task.id.toString());
-                            getTasks();
+                            _getTasks();
                           },
                           key: Key(task.id.toString()),
                           child: Card(
@@ -131,9 +163,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         .text;
                                                 await tasksRepository
                                                     .update(task);
-                                                if (!context.mounted) return;
+                                                if (!context.mounted) {
+                                                  return;
+                                                }
                                                 Navigator.pop(context);
-                                                getTasks();
+                                                _getTasks();
                                                 setState(() {});
                                               },
                                               child: const Text("Salvar"))
@@ -160,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   onChanged: (bool? value) async {
                                     task.isChecked = value ?? false;
                                     await tasksRepository.update(task);
-                                    getTasks();
+                                    _getTasks();
                                   },
                                 ),
                               ),
@@ -170,16 +204,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                     ),
                   ),
-            const SizedBox(
-              height: 50,
-            ),
-            if (loadingEditing)
-              const Center(
-                child: LinearProgressIndicator(),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  if (loadingEditing)
+                    const Center(
+                      child: LinearProgressIndicator(),
+                    ),
+                ],
               ),
-          ],
-        ),
-      ),
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           descriptionController.text = "";
@@ -198,14 +232,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                         child: const Text('Cancelar')),
                     TextButton(
-                        onPressed: () async {
-                          loadingEditing = true;
-                          await tasksRepository.create(TaskModel.create(
-                              descriptionController.text, false));
-                          if (!context.mounted) return;
-                          Navigator.pop(context);
-                          getTasks();
-                          setState(() {});
+                        onPressed: () {
+                          _createTask(descriptionController.text);
                         },
                         child: const Text("Salvar"))
                   ],

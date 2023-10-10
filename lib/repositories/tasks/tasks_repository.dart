@@ -7,13 +7,17 @@ class TasksRepository {
   TasksRepository();
 
   Future<List<TaskModel>> getTasks(bool done) async {
-    var url = '/tasks';
-    if (done) {
-      url = '/tasks/isCheckedFalse';
-    }
-    var result = await _customDio.dio.get(url);
+    try {
+      var url = '/tasks';
+      if (done) {
+        url = '/tasks/isCheckedFalse';
+      }
+      var result = await _customDio.dio.get(url);
 
-    return TaskModel.fromJsonList(result.data);
+      return TaskModel.fromJsonList(result.data);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> create(TaskModel task) async {
