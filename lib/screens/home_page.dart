@@ -35,7 +35,10 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text("Task Flow",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+                color: Colors.black)),
       ),
       drawer: CustomDrawer(userName: userName),
       body: Center(

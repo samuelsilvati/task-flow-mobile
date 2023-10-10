@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData lightTheme = ThemeData(
-  appBarTheme: const AppBarTheme(
-      titleTextStyle: TextStyle(color: Colors.black),
-      iconTheme: IconThemeData(color: Colors.black)),
+  appBarTheme: const AppBarTheme(iconTheme: IconThemeData(color: Colors.black)),
   brightness: Brightness.light,
   colorScheme: const ColorScheme.light(
       background: Colors.white, primary: Colors.amber, secondary: Colors.amber),
