@@ -36,11 +36,11 @@ class CustomDrawer extends StatelessWidget {
                   width: double.infinity,
                   child: const Row(
                     children: [
-                      Icon(Icons.settings_outlined),
+                      Icon(Icons.account_circle_outlined),
                       SizedBox(
                         width: 10,
                       ),
-                      Text("Perfil"),
+                      Text("Minha Conta"),
                     ],
                   )),
               onTap: () async {
