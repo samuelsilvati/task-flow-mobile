@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_flow/repositories/store.dart';
 import 'package:task_flow/screens/home_page.dart';
 import 'package:task_flow/screens/login_page.dart';
 
@@ -22,11 +22,10 @@ class _LoginVerifyState extends State<LoginVerify> {
   }
 
   tokenDecript() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? jwtToken = prefs.getString('jwt_token');
-    // final String? name = prefs.getString('name');
+    final String jwtToken = await Store.getString('jwt_token');
+    // final String name = await Store.getString('name');
     // print(name);
-    token = jwtToken ?? '';
+    token = jwtToken;
     if (token != '') {
       bool isTokenExpired = JwtDecoder.isExpired(token);
 

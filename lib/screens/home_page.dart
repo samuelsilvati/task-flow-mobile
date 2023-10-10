@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_flow/repositories/store.dart';
 import 'package:task_flow/widgets/custom_drawer.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -19,14 +19,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadUserName() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? savedName = prefs.getString('name');
+    final String savedName = await Store.getString('name');
 
-    if (savedName != null) {
-      setState(() {
-        userName = savedName;
-      });
-    }
+    setState(() {
+      userName = savedName;
+    });
   }
 
   @override

@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_flow/models/auth/jwt_model.dart';
+import 'package:task_flow/repositories/store.dart';
 
 class AuthUser {
   static final _url = dotenv.get("API_URL");
@@ -19,11 +19,9 @@ class AuthUser {
 
         JwtModel jwtModel = JwtModel.fromJson(decodedToken);
 
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('jwt_token', token);
-        await prefs.setString('name', jwtModel.name);
-        await prefs.setString('sub', jwtModel.sub);
-        // print('Token JWT salvo com sucesso.');
+        Store.saveString('jwt_token', token);
+        Store.saveString('name', jwtModel.name);
+        Store.saveString('sub', jwtModel.sub);
 
         return response.statusCode;
       }

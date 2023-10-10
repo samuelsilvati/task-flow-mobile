@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_flow/repositories/store.dart';
 import 'package:task_flow/screens/login_page.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -129,9 +129,9 @@ class CustomDrawer extends StatelessWidget {
                               child: const Text('Não')),
                           TextButton(
                               onPressed: () async {
-                                final prefs =
-                                    await SharedPreferences.getInstance();
-                                await prefs.setString('jwt_token', '');
+                                await Store.remove('jwt_token');
+                                await Store.remove('name');
+                                await Store.remove('sub');
 
                                 if (!context.mounted) return;
 
