@@ -8,10 +8,10 @@ class AccountModel {
   AccountModel.update(this.name, this.password);
 
   AccountModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    email = json['email'];
-    password = json['password'];
+    id = json['id'] ?? '';
+    name = json['name'] ?? '';
+    email = json['email'] ?? '';
+    password = json['password'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
