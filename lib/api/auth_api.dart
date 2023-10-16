@@ -29,4 +29,16 @@ class AuthUser {
       rethrow;
     }
   }
+
+  Future signUp(String name, String email, String password) async {
+    try {
+      final dio = Dio();
+      dio.options.headers["Content-type"] = "application/json";
+      final response = await dio.post("$_url/signup",
+          data: {'name': name, 'email': email, 'password': password});
+      return response.statusCode;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
