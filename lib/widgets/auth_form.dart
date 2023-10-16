@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_flow/screens/signup_page.dart';
 import 'package:task_flow/widgets/error_dialog.dart';
 import 'package:task_flow/api/auth_api.dart';
 import 'package:task_flow/screens/home_page.dart';
@@ -81,39 +82,37 @@ class AuthFormState extends State<AuthForm> {
       key: _formKey,
       child: Column(
         children: [
-          Center(
-            child: Container(
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              // height: 40,
-              child: TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                onSaved: (email) {
-                  _authData['email'] = email ?? '';
-                },
-                validator: (email) {
-                  if (email!.trim().isEmpty) {
-                    return 'E-mail obrigatório';
-                  } else if (isValidEmail(email) == false) {
-                    return 'Email inválido';
-                  }
-                  return null;
-                },
-                style: TextStyle(color: Colors.grey.shade700),
-                decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade700),
-                        borderRadius: BorderRadius.circular(10)),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade700),
-                        borderRadius: BorderRadius.circular(10)),
-                    labelText: "E-mail",
-                    labelStyle:
-                        TextStyle(color: Colors.grey.shade600, fontSize: 16),
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 14, horizontal: 10),
-                    isDense: true),
-              ),
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+            // height: 40,
+            child: TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              onSaved: (email) {
+                _authData['email'] = email ?? '';
+              },
+              validator: (email) {
+                if (email!.trim().isEmpty) {
+                  return 'E-mail obrigatório';
+                } else if (isValidEmail(email) == false) {
+                  return 'Email inválido';
+                }
+                return null;
+              },
+              style: TextStyle(color: Colors.grey.shade700),
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade700),
+                      borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade700),
+                      borderRadius: BorderRadius.circular(10)),
+                  labelText: "E-mail",
+                  labelStyle:
+                      TextStyle(color: Colors.grey.shade600, fontSize: 16),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+                  isDense: true),
             ),
           ),
           Container(
@@ -212,7 +211,10 @@ class AuthFormState extends State<AuthForm> {
                   ),
                   InkWell(
                     onTap: () {
-                      print('cadastre-se');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignupPage()));
                     },
                     child: const Text("Cadastre-se",
                         style: TextStyle(
