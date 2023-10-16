@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_flow/screens/forgot_password_page.dart';
 import 'package:task_flow/screens/signup_page.dart';
 import 'package:task_flow/widgets/error_dialog.dart';
 import 'package:task_flow/api/auth_api.dart';
@@ -191,7 +192,12 @@ class AuthFormState extends State<AuthForm> {
           Column(
             children: [
               InkWell(
-                onTap: () async {},
+                onTap: () async {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ForgotPasswordPage()));
+                },
                 child: const Text("Esqueci minha senha",
                     style: TextStyle(
                         fontSize: 14,
