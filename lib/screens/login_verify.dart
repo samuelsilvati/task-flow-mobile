@@ -13,8 +13,6 @@ class LoginVerify extends StatefulWidget {
 
 class _LoginVerifyState extends State<LoginVerify> {
   String token = '';
-  bool isLoading = true;
-
   @override
   void initState() {
     super.initState();
@@ -23,25 +21,28 @@ class _LoginVerifyState extends State<LoginVerify> {
 
   tokenDecript() async {
     final String jwtToken = await Store.getString('jwt_token');
-    // final String name = await Store.getString('name');
-    // print(name);
     token = jwtToken;
     if (token != '') {
       bool isTokenExpired = JwtDecoder.isExpired(token);
 
       if (!isTokenExpired) {
-        setState(() {
-          isLoggedIn = true;
-          isLoading = false;
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const MyHomePage()),
+          );
         });
       } else {
-        setState(() {
-          isLoading = false;
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+          );
         });
       }
     } else {
-      setState(() {
-        isLoading = false;
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
       });
     }
   }
@@ -50,17 +51,13 @@ class _LoginVerifyState extends State<LoginVerify> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Column(
-        children: [
-          SizedBox(
-            height: 30,
-          ),
-          LinearProgressIndicator(),
-        ],
-      );
-    } else {
-      return isLoggedIn ? const MyHomePage() : const LoginPage();
-    }
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      body: const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(Colors.black),
+        ),
+      ),
+    );
   }
 }
