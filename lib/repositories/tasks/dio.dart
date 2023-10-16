@@ -10,6 +10,6 @@ class CustomDio {
   CustomDio() {
     _dio.options.headers["Content-Type"] = "application/json";
     _dio.options.baseUrl = dotenv.get("API_URL");
-    _dio.interceptors.add(Back4AppDioInterceptor());
+    _dio.interceptors.add(DioInterceptor());
   }
 }

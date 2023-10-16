@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:task_flow/repositories/store.dart';
 
-class Back4AppDioInterceptor extends Interceptor {
+class DioInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
