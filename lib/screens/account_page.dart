@@ -19,9 +19,6 @@ class _AccountPageState extends State<AccountPage> {
         ),
         body: const Column(
           children: [
-            SizedBox(
-              height: 40,
-            ),
             AccountForm(),
           ],
         ));
