@@ -19,18 +19,16 @@ class AccountRepository {
   }
 
   Future<void> update(AccountModel user) async {
-    final String userId = await Store.getString('sub');
     try {
-      await _customDio.dio.put("/user/$userId", data: user.toJsonApi());
+      await _customDio.dio.put('/edit-user', data: user.toJsonApi());
     } catch (e) {
       rethrow;
     }
   }
 
   Future<void> delete() async {
-    final String userId = await Store.getString('sub');
     try {
-      await _customDio.dio.delete("/user/$userId");
+      await _customDio.dio.delete("/delete");
     } catch (e) {
       rethrow;
     }
