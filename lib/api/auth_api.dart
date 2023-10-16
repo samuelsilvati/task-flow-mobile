@@ -41,4 +41,16 @@ class AuthUser {
       rethrow;
     }
   }
+
+  Future forgotPassword(String email) async {
+    try {
+      final dio = Dio();
+      dio.options.headers["Content-type"] = "application/json";
+      final response =
+          await dio.post("$_url/forgot-password", data: {'email': email});
+      return response.statusCode;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
