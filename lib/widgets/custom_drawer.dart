@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_flow/repositories/store.dart';
+import 'package:task_flow/screens/account_page.dart';
 import 'package:task_flow/screens/login_page.dart';
 import 'package:task_flow/widgets/help.dart';
 import 'package:task_flow/widgets/privacity_policy.dart';
@@ -46,6 +47,10 @@ class CustomDrawer extends StatelessWidget {
                   )),
               onTap: () async {
                 Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AccountPage()));
               },
             ),
             const Divider(),
