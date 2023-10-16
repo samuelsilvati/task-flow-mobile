@@ -214,38 +214,40 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          descriptionController.text = "";
-          showDialog(
-              context: context,
-              builder: (BuildContext bc) {
-                return AlertDialog(
-                  title: const Text("Adicionar tarefa"),
-                  content: TextField(
-                    controller: descriptionController,
-                  ),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Cancelar')),
-                    TextButton(
-                        onPressed: () {
-                          _createTask(descriptionController.text);
-                        },
-                        child: const Text("Salvar"))
-                  ],
-                );
-              });
-        },
-        tooltip: 'Add task',
-        child: const Icon(
-          Icons.add,
-          color: Colors.black,
-        ),
-      ),
+      floatingActionButton: !loading
+          ? FloatingActionButton(
+              onPressed: () {
+                descriptionController.text = "";
+                showDialog(
+                    context: context,
+                    builder: (BuildContext bc) {
+                      return AlertDialog(
+                        title: const Text("Adicionar tarefa"),
+                        content: TextField(
+                          controller: descriptionController,
+                        ),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Cancelar')),
+                          TextButton(
+                              onPressed: () {
+                                _createTask(descriptionController.text);
+                              },
+                              child: const Text("Salvar"))
+                        ],
+                      );
+                    });
+              },
+              tooltip: 'Add task',
+              child: const Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
+            )
+          : null,
     );
   }
 }
