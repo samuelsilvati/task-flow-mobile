@@ -17,10 +17,12 @@ class _AccountPageState extends State<AccountPage> {
           title: const Text("Minha Conta",
               style: TextStyle(fontSize: 22, color: Colors.black)),
         ),
-        body: const Column(
-          children: [
-            AccountForm(),
-          ],
+        body: const SingleChildScrollView(
+          child: Column(
+            children: [
+              AccountForm(),
+            ],
+          ),
         ));
   }
 }
