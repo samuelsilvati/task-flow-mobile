@@ -3,7 +3,7 @@ import 'package:task_flow/models/account_model.dart';
 import 'package:task_flow/repositories/account_repository.dart';
 import 'package:task_flow/screens/login_page.dart';
 import 'package:task_flow/widgets/error_dialog.dart';
-import 'package:task_flow/screens/home_page.dart';
+import 'package:task_flow/widgets/flutter_toast.dart';
 
 import '../repositories/store.dart';
 
@@ -65,32 +65,68 @@ class AccountFormState extends State<AccountForm> {
 
     _formKey.currentState?.save();
     try {
-      const response = '';
+      await accountRepository.update(
+          AccountModel.update(nameController.text, passwordController.text));
 
       if (!context.mounted) return;
 
-      if (response == 200) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const MyHomePage()));
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return const ErrorDialog(content: "E-mail ou senha incorretos!");
-            });
-        return;
-      }
+      var toast = FlutterToast();
+      await Store.remove('jwt_token');
+      await Store.remove('name');
+      await Store.remove('sub');
+      toast.success('Sua conta foi alterada. Faça login novamente!');
+
+      if (!context.mounted) return;
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (route) => false);
     } catch (e) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return const ErrorDialog(content: "E-mail ou senha incorretos!");
+            return const ErrorDialog(
+                content: "Não foi possível alterar seus dados.");
           });
     }
 
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<void> _deleteAccount() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    _formKey.currentState?.save();
+    try {
+      await accountRepository.delete();
+
+      if (!context.mounted) return;
+
+      var toast = FlutterToast();
+      await Store.remove('jwt_token');
+      await Store.remove('name');
+      await Store.remove('sub');
+      toast.success('Sua conta foi apagada permanentemente!');
+
+      if (!context.mounted) return;
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (route) => false);
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const ErrorDialog(
+                content: "Não foi possível apagar sua conta! Tente novamente");
+          });
+    }
     setState(() {
       isLoading = false;
     });
@@ -314,19 +350,8 @@ class AccountFormState extends State<AccountForm> {
                                       },
                                       child: const Text('Cancelar')),
                                   TextButton(
-                                      onPressed: () async {
-                                        await Store.remove('jwt_token');
-                                        await Store.remove('name');
-                                        await Store.remove('sub');
-
-                                        if (!context.mounted) return;
-
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const LoginPage()),
-                                            (route) => false);
+                                      onPressed: () {
+                                        _deleteAccount();
                                       },
                                       child: const Text('Excluir'))
                                 ],
